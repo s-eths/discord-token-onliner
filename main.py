@@ -75,7 +75,7 @@ async def start_client(token, delay):
 
 async def main():
     os.system("cls")
-    os.system("powershell -command \"$host.UI.RawUI.CursorSize = 0\"")
+    print("\033[?25l", end = "")
     box_centered()
 
     tasks = [
@@ -85,4 +85,5 @@ async def main():
     await asyncio.gather(*tasks)
 
 if __name__ == "__main__":
+
     asyncio.run(main())
