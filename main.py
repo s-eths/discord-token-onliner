@@ -6,7 +6,7 @@ with open("config.json", "r") as file:
 
 init(autoreset = True)
 
-online_users = []
+online_users = set()
 
 def visible_length(s):
     return len(re.sub(r'\x1b\[[0-9;]*m', '', s))
@@ -22,7 +22,7 @@ def build_box():
     lines.append(Fore.CYAN + "├" + "─" * 40 + "┤")
 
     if online_users:
-        for user in online_users:
+        for user in sorted(online_users):
             max_user_len = 40 - visible_length(f"{Fore.WHITE}| " + f"   {Fore.GREEN}ONLINE    ")
 
             display_user = user
@@ -67,7 +67,7 @@ async def start_client(token, delay):
 
     @client.event
     async def on_ready():
-        online_users.append(client.user.name)
+        online_users.add(client.user.name)
         print("\033[H\033[J", end = "")
         box_centered()
 
@@ -85,5 +85,4 @@ async def main():
     await asyncio.gather(*tasks)
 
 if __name__ == "__main__":
-
     asyncio.run(main())
